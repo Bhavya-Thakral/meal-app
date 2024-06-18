@@ -1,7 +1,6 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import React from "react";
-import ViewMeal from "@/app/screens/ViewMeal";
-import { useNavigation } from "@react-navigation/native";
+
 
 const CategoryGrid = ({ title, color, onPress }) => {
   return (
@@ -27,7 +26,7 @@ export default CategoryGrid;
 const styles = StyleSheet.create({
   viewGrid: {
     flex: 1,
-    margin: 16,
+    margin: Platform.OS === "ios"? 16:8,
     alignItems: "center",
     justifyContent: "center",
     height: 150,

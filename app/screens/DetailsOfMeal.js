@@ -1,0 +1,65 @@
+import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { MEALS } from "../dummy-data";
+import { ScrollView } from "react-native-gesture-handler";
+
+const DetailsOfMeal = ({ route, navigation }) => {
+  const catId = route.params.categoryId;
+
+  useLayoutEffect(() => {
+    const mealName = MEALS.find((meal) => meal.id === catId).title;
+    navigation.setOptions({
+      title: mealName,
+    });
+  }, [navigation, catId]);
+
+  const selectedMeal = MEALS.find((meal) => meal.id === catId);
+  console.log("selected meal", selectedMeal);
+
+  return (
+    <ScrollView style={styles.component}>
+        <View style={styles.mainView} >
+
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.img} />
+      <Text style={styles.title}>{selectedMeal.title}</Text>
+      <Text style={styles.title}>{selectedMeal.duration}</Text>
+      <Text style={styles.title}>{selectedMeal.complexity}</Text>
+      <Text style={styles.title}>{selectedMeal.affordability}</Text>
+      <Text style={styles.title}>Ingredients</Text>
+      {(selectedMeal.ingredients).map((item) => 
+        <Text key={item}>{item}</Text>
+      )}
+      <Text style={styles.title}>Steps</Text>
+      {(selectedMeal.steps).map((item) => 
+        <Text key={item}>{item}</Text>
+      )}
+
+    </View>
+    </ScrollView>
+
+  );
+};
+
+export default DetailsOfMeal;
+
+const styles = StyleSheet.create({
+  component: {
+    flex: 1,
+    width: "100%",
+    // alignItems: "center",
+    gap: 10,
+    marginVertical: 10, 
+  },
+  img: {
+    width: 200,
+    aspectRatio: 1 / 1,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  mainView:{
+    alignItems:"center",
+    width: "100%",
+  }
+});
