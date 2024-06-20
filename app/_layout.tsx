@@ -9,6 +9,7 @@ import CategoryScreen from "@/app/screens/CategoryScreen";
 import ViewMeal from "@/app/screens/ViewMeal";
 import Favorite from "@/app/screens/FavoriteMeals";
 import DetailsOfMeal from "@/app/screens/DetailsOfMeal";
+import FavoriteContextProvider from "@/app/context/FavoriteContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -32,45 +33,46 @@ function NewDrawer() {
         drawerInactiveTintColor: "brown",
       }}
     >
-      <Drawer.Screen name="Categories" component={BottomTabs} />
+      <Drawer.Screen name="Categories" component={CategoryScreen} />
       <Drawer.Screen name="Favorites" component={Favorite} />
     </Drawer.Navigator>
   );
 }
 
-function BottomTabs() {
-  return (
-    <BottomTab.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <BottomTab.Screen name="Categories" component={CategoryScreen} />
-      <BottomTab.Screen name="Favorites" component={Favorite} />
-    </BottomTab.Navigator>
-  );
-}
+// function BottomTabs() {
+//   return (
+//     <BottomTab.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}
+//     >
+//       <BottomTab.Screen name="Categories" component={CategoryScreen} />
+//       <BottomTab.Screen name="Favorites" component={Favorite} />
+//     </BottomTab.Navigator>
+//   );
+// }
 
 export default function RootLayout() {
   return (
-    <NavigationContainer independent={true}>
-      <GestureHandlerRootView>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={styles.areaView}>
-          <Stack.Navigator initialRouteName="CategoryScreen">
-            <Stack.Group
-              screenOptions={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: "pink",
-                },
-                headerTintColor: "red",
-                contentStyle: {
-                  backgroundColor: "pink",
-                },
-              }}
-            >
-              {/* <Stack.Screen
+    <FavoriteContextProvider>
+      <NavigationContainer independent={true}>
+        <GestureHandlerRootView>
+          <StatusBar barStyle="dark-content" />
+          <SafeAreaView style={styles.areaView}>
+            <Stack.Navigator initialRouteName="CategoryScreen">
+              <Stack.Group
+                screenOptions={{
+                  headerShown: true,
+                  headerStyle: {
+                    backgroundColor: "pink",
+                  },
+                  headerTintColor: "red",
+                  contentStyle: {
+                    backgroundColor: "pink",
+                  },
+                }}
+              >
+                {/* <Stack.Screen
                 name="Tab"
                 component={BottomTabs}
                 options={{
@@ -78,21 +80,22 @@ export default function RootLayout() {
                   headerShown: false,
                 }}
               /> */}
-              <Stack.Screen
-                name="Drawer"
-                component={NewDrawer}
-                options={{
-                  headerTitle: "List of categories",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen name="mealView" component={ViewMeal} />
-              <Stack.Screen name="DetailsOfMeal" component={DetailsOfMeal} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </SafeAreaView>
-      </GestureHandlerRootView>
-    </NavigationContainer>
+                <Stack.Screen
+                  name="Drawer"
+                  component={NewDrawer}
+                  options={{
+                    headerTitle: "List of categories",
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen name="mealView" component={ViewMeal} />
+                <Stack.Screen name="DetailsOfMeal" component={DetailsOfMeal} />
+              </Stack.Group>
+            </Stack.Navigator>
+          </SafeAreaView>
+        </GestureHandlerRootView>
+      </NavigationContainer>
+    </FavoriteContextProvider>
   );
 }
 

@@ -20,8 +20,8 @@ const CategoryScreen = ({ navigation }) => {
     );
   }
   return (
-    <View style={StyleSheet.main}>
-      <Heading heading={"Categories"}/>
+    <View style={styles.main}>
+      {/* <Heading heading={"Categories"}/> */}
       <FlatList
         data={CATEGORIES}
         keyExtractor={(item) => item.id}

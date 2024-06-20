@@ -1,31 +1,55 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { MEALS } from "../dummy-data";
 import { ScrollView } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+import { FavoriteContext } from "../context/FavoriteContext";
+
 
 const DetailsOfMeal = ({ route, navigation }) => {
   const catId = route.params.categoryId;
+  const favoriteMealCtx = useContext(FavoriteContext);
 
   useLayoutEffect(() => {
-    const mealName = MEALS.find((meal) => meal.id === catId).title;
+    // const mealName = MEALS.find((meal) => meal.id === catId).title;
     navigation.setOptions({
-      title: mealName,
+      headerRight:()=>{
+          
+      }
     });
   }, [navigation, catId]);
 
   const selectedMeal = MEALS.find((meal) => meal.id === catId);
-  console.log("selected meal", selectedMeal);
+  // console.log("selected meal", selectedMeal);
+
+  const isFavMeal= favoriteMealCtx.ids.includes(catId);
+
+  const favMealIds= favoriteMealCtx.ids;
+  console.log("favMealIds",favMealIds);
+
+  function changeFavoriteHandler(){
+    if(isFavMeal){
+      favoriteMealCtx.removeFavorite(catId);
+    }
+    else{
+      favoriteMealCtx.addFavorite(catId);
+    }
+  }
 
   return (
     <ScrollView style={styles.component}>
         <View style={styles.mainView} >
 
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.img} />
+      <Ionicons name={isFavMeal?"star":"star-outline"} color={"yellow"} size={30}
+          onPress={changeFavoriteHandler}
+          />
       <Text style={styles.title}>{selectedMeal.title}</Text>
       <Text style={styles.title}>{selectedMeal.duration}</Text>
       <Text style={styles.title}>{selectedMeal.complexity}</Text>
       <Text style={styles.title}>{selectedMeal.affordability}</Text>
       <Text style={styles.title}>Ingredients</Text>
+      
       {(selectedMeal.ingredients).map((item) => 
         <Text key={item}>{item}</Text>
       )}
